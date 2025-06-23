@@ -373,7 +373,7 @@ function getOccupationSelectElement($selected = Array()) {
 
 
 /**
- * Sends an email containing a PIN to the specified recipient.
+ * Sends an email containing a PIN to the specified recipient with detailed error logging.
  *
  * @param string $first_name The first name of the recipient.
  * @param string $last_name The last name of the recipient.
@@ -383,11 +383,75 @@ function getOccupationSelectElement($selected = Array()) {
  * @return bool True if the email was sent successfully, false otherwise.
  */
 function send_pin_email($first_name, $last_name, $recipient, $pin) {
-	$subject = 'Ihr neuer Wiki-Pin!';
-	$message =
-		'Hallo ' . $first_name. ' ' . $last_name . ',' . PHP_EOL . PHP_EOL .
-		'Ihr neuer Wiki-Pin lautet: ' . $pin . PHP_EOL . PHP_EOL .
-		'Mit freundlichen Grüßen' . PHP_EOL .
-		'Das Wiki-Team';
-	return wp_mail($recipient, $subject, $message);
+    // Debug: Log-Einträge aktivieren
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log("PIN E-Mail wird versendet an: " . $recipient);
+    }
+    
+    $subject = 'Ihr neuer Wiki-Pin!';
+    $message = 
+        'Hallo ' . $first_name. ' ' . $last_name . ',' . PHP_EOL . PHP_EOL .
+        'Ihr neuer Wiki-Pin lautet: ' . $pin . PHP_EOL . PHP_EOL .
+        'Mit freundlichen Grüßen' . PHP_EOL .
+        'Das Wiki-Team';
+    
+    // Erweiterte E-Mail-Headers
+    $headers = array(
+        'Content-Type: text/plain; charset=UTF-8',
+        'From: ' . get_option('blogname') . ' <' . get_option('admin_email') . '>'
+    );
+    
+    // E-Mail versenden
+    $result = wp_mail($recipient, $subject, $message, $headers);
+    
+    // Debug: Ergebnis loggen
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        if ($result) {
+            error_log("PIN E-Mail erfolgreich versendet an: " . $recipient);
+        } else {
+            error_log("PIN E-Mail FEHLER beim Versand an: " . $recipient);
+            
+            // Zusätzliche WordPress E-Mail-Debugging-Info
+            global $phpmailer;
+            if (isset($phpmailer) && $phpmailer->ErrorInfo) {
+                error_log("PHPMailer Fehler: " . $phpmailer->ErrorInfo);
+            }
+        }
+    }
+    
+    return $result;
+}
+
+/**
+ * Erweiterte E-Mail-Test-Funktion für Debugging
+ */
+function test_email_functionality($test_email) {
+    $subject = 'Test E-Mail von BTZ Employee List';
+    $message = 'Dies ist eine Test-E-Mail zur Überprüfung der E-Mail-Funktionalität.';
+    
+    // WordPress-Konfiguration prüfen
+    $admin_email = get_option('admin_email');
+    $site_name = get_option('blogname');
+    
+    error_log("WordPress Admin E-Mail: " . $admin_email);
+    error_log("WordPress Site Name: " . $site_name);
+    
+    $headers = array(
+        'Content-Type: text/plain; charset=UTF-8',
+        'From: ' . $site_name . ' <' . $admin_email . '>'
+    );
+    
+    $result = wp_mail($test_email, $subject, $message, $headers);
+    
+    if (!$result) {
+        error_log("E-Mail-Test fehlgeschlagen für: " . $test_email);
+        
+        // Weitere Debugging-Informationen
+        global $phpmailer;
+        if (isset($phpmailer)) {
+            error_log("PHPMailer Debug Info: " . print_r($phpmailer, true));
+        }
+    }
+    
+    return $result;
 }

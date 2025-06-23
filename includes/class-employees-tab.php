@@ -40,11 +40,12 @@ class Employee_Tab extends Singleton {
                         <label for="btzc-el-employee-tab-search-field"></label>
                         <input type="text" class="btzc-v2-basic-text-field" id="btzc-el-employee-tab-search-field">
                         
-                        <!-- NEUE PIN-VERSAND FUNKTION -->
+                        <!-- PIN-VERSAND FUNKTION -->
                         <div id="btzc-el-pin-send-container" style="margin-left: 20px; display: inline-flex; align-items: center; gap: 10px;">
                             <label for="btzc-el-pin-send-email">PIN versenden an:</label>
                             <input type="email" class="btzc-v2-basic-text-field" id="btzc-el-pin-send-email" placeholder="mitarbeiter@email.com" style="width: 200px;">
                             <button type="button" class="btzc-v2-basic-button btzc-v2-standard-button" id="btzc-el-pin-send-button">PIN senden</button>
+                            <button type="button" class="btzc-v2-basic-button" id="btzc-el-email-test-button" style="background: #ffa500;">E-Mail testen</button>
                         </div>
                     </div>
                     <div class="btzc-v2-tile-table-container">

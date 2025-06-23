@@ -460,7 +460,7 @@ function upload_employee_image() {
  **********************************************************/
 
 /**
- * AJAX-Handler für das Versenden einer PIN an eine E-Mail-Adresse.
+ * AJAX-Handler für das Versenden einer PIN an eine E-Mail-Adresse mit Debugging.
  * 
  * @since 2.1.0
  */
@@ -477,6 +477,17 @@ function send_pin_to_email() {
     if (!is_email($email)) {
         wp_send_json_error(['message' => 'Ungültige E-Mail-Adresse']);
         return;
+    }
+    
+    // Debug: WordPress E-Mail-Konfiguration prüfen
+    $admin_email = get_option('admin_email');
+    $site_name = get_option('blogname');
+    
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log("E-Mail-Versand wird versucht:");
+        error_log("Ziel-E-Mail: " . $email);
+        error_log("WordPress Admin E-Mail: " . $admin_email);
+        error_log("WordPress Site Name: " . $site_name);
     }
     
     // Mitarbeiter anhand E-Mail suchen
@@ -499,8 +510,21 @@ function send_pin_to_email() {
     try {
         $pin = $found_employee->generate_new_ssf_pin();
         
-        // E-Mail versenden mit der bestehenden Funktion
+        // E-Mail-Test durchführen
         require_once BTZC_EL_INCLUDES . 'self-service-form.php';
+        
+        // Zunächst Test-E-Mail senden
+        $test_result = \BTZ\Customized\EmployeeList\test_email_functionality($email);
+        
+        if (!$test_result) {
+            wp_send_json_error([
+                'message' => 'E-Mail-System nicht konfiguriert. Bitte kontaktieren Sie den Administrator.',
+                'debug_info' => 'WordPress E-Mail-Funktionalität ist nicht verfügbar'
+            ]);
+            return;
+        }
+        
+        // PIN-E-Mail versenden
         $success = \BTZ\Customized\EmployeeList\send_pin_email(
             $found_employee->get_first_name(),
             $found_employee->get_last_name(),
@@ -511,13 +535,51 @@ function send_pin_to_email() {
         if ($success) {
             wp_send_json_success([
                 'message' => 'PIN erfolgreich an ' . $email . ' gesendet',
-                'employee_name' => $found_employee->get_first_name() . ' ' . $found_employee->get_last_name()
+                'employee_name' => $found_employee->get_first_name() . ' ' . $found_employee->get_last_name(),
+                'pin' => $pin // NUR für Debugging - in Produktion entfernen!
             ]);
         } else {
-            wp_send_json_error(['message' => 'E-Mail-Versand fehlgeschlagen']);
+            // Detaillierte Fehleranalyse
+            global $phpmailer;
+            $error_details = '';
+            if (isset($phpmailer) && $phpmailer->ErrorInfo) {
+                $error_details = $phpmailer->ErrorInfo;
+            }
+            
+            wp_send_json_error([
+                'message' => 'E-Mail-Versand fehlgeschlagen',
+                'debug_info' => $error_details,
+                'suggestion' => 'Bitte prüfen Sie die WordPress E-Mail-Konfiguration oder installieren Sie ein SMTP-Plugin'
+            ]);
         }
         
     } catch (Exception $e) {
         wp_send_json_error(['message' => 'Fehler beim Generieren der PIN: ' . $e->getMessage()]);
+    }
+}
+
+/**
+ * AJAX-Handler für E-Mail-Test-Funktionalität
+ */
+add_action('wp_ajax_btzc_el_test_email', 'BTZ\Customized\EmployeeList\test_email_ajax');
+function test_email_ajax() {
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(['message' => 'Keine Berechtigung']);
+        return;
+    }
+    
+    $email = sanitize_email($_POST['email']);
+    if (!is_email($email)) {
+        wp_send_json_error(['message' => 'Ungültige E-Mail-Adresse']);
+        return;
+    }
+    
+    require_once BTZC_EL_INCLUDES . 'self-service-form.php';
+    $result = \BTZ\Customized\EmployeeList\test_email_functionality($email);
+    
+    if ($result) {
+        wp_send_json_success(['message' => 'Test-E-Mail erfolgreich gesendet']);
+    } else {
+        wp_send_json_error(['message' => 'Test-E-Mail fehlgeschlagen']);
     }
 }

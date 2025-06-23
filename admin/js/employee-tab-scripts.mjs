@@ -990,28 +990,67 @@ jQuery(function($) {
     // PIN-Versand-Funktionalität
     const pinSendEmail = $('#btzc-el-pin-send-email');
     const pinSendButton = $('#btzc-el-pin-send-button');
+    const emailTestButton = $('#btzc-el-email-test-button');
     
-    // PIN senden Button-Handler
-    pinSendButton.on('click', function() {
+    // E-Mail-Test Button
+    emailTestButton.on('click', function() {
         const email = pinSendEmail.val().trim();
         
-        // Validierung
         if (!email) {
-            showToastMessage('Bitte geben Sie eine E-Mail-Adresse ein', 3000, 'error');
+            alert('Bitte geben Sie eine E-Mail-Adresse für den Test ein');
             pinSendEmail.focus();
             return;
         }
         
         if (!isValidEmail(email)) {
-            showToastMessage('Bitte geben Sie eine gültige E-Mail-Adresse ein', 3000, 'error');
+            alert('Bitte geben Sie eine gültige E-Mail-Adresse ein');
             pinSendEmail.focus();
             return;
         }
         
-        // Button deaktivieren während des Versands
+        emailTestButton.prop('disabled', true).text('Teste...');
+        
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'btzc_el_test_email',
+                email: email
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert(`Test-E-Mail erfolgreich an ${email} gesendet!\nBitte prüfen Sie Ihren Posteingang.`);
+                } else {
+                    alert(`Test-E-Mail fehlgeschlagen: ${response.data.message}\n\nBitte prüfen Sie die WordPress E-Mail-Konfiguration.`);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert(`Fehler beim E-Mail-Test: ${error}`);
+            },
+            complete: function() {
+                emailTestButton.prop('disabled', false).text('E-Mail testen');
+            }
+        });
+    });
+    
+    // PIN senden Button (erweitert mit besserer Fehlerbehandlung)
+    pinSendButton.on('click', function() {
+        const email = pinSendEmail.val().trim();
+        
+        if (!email) {
+            alert('Bitte geben Sie eine E-Mail-Adresse ein');
+            pinSendEmail.focus();
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            alert('Bitte geben Sie eine gültige E-Mail-Adresse ein');
+            pinSendEmail.focus();
+            return;
+        }
+        
         pinSendButton.prop('disabled', true).text('Wird gesendet...');
         
-        // AJAX-Anfrage
         $.ajax({
             url: ajaxurl,
             type: 'POST',
@@ -1021,71 +1060,31 @@ jQuery(function($) {
             },
             success: function(response) {
                 if (response.success) {
-                    showToastMessage(
-                        `PIN erfolgreich an ${response.data.employee_name} (${email}) gesendet!`, 
-                        5000, 
-                        'success'
-                    );
-                    pinSendEmail.val(''); // Feld leeren
+                    alert(`PIN erfolgreich an ${response.data.employee_name} (${email}) gesendet!\n\nGenerated PIN: ${response.data.pin || 'Hidden'}`);
+                    pinSendEmail.val('');
                 } else {
-                    showToastMessage(response.data.message, 4000, 'error');
+                    let errorMessage = response.data.message;
+                    if (response.data.suggestion) {
+                        errorMessage += '\n\nLösungsvorschlag: ' + response.data.suggestion;
+                    }
+                    if (response.data.debug_info) {
+                        errorMessage += '\n\nTechnische Details: ' + response.data.debug_info;
+                    }
+                    alert(errorMessage);
                 }
             },
             error: function(xhr, status, error) {
-                showToastMessage('Fehler beim Versenden der PIN: ' + error, 4000, 'error');
+                alert(`Fehler beim Versenden der PIN: ${error}\n\nBitte prüfen Sie die Browser-Konsole für weitere Details.`);
+                console.error('AJAX Error:', xhr.responseText);
             },
             complete: function() {
-                // Button wieder aktivieren
                 pinSendButton.prop('disabled', false).text('PIN senden');
             }
         });
     });
     
-    // Enter-Taste im E-Mail-Feld
-    pinSendEmail.on('keypress', function(e) {
-        if (e.which === 13) { // Enter-Taste
-            pinSendButton.click();
-        }
-    });
-    
-    // E-Mail-Validierungsfunktion
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
-    
-    // Toast-Nachrichten anzeigen (falls nicht vorhanden)
-    function showToastMessage(message, duration = 3000, type = 'info') {
-        // Entfernen vorhandener Toast-Nachrichten
-        $('.btzc-toast-message').remove();
-        
-        // Toast-Element erstellen
-        const toast = $(`
-            <div class="btzc-toast-message btzc-toast-${type}" style="
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
-                color: white;
-                padding: 15px 20px;
-                border-radius: 4px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                z-index: 10000;
-                max-width: 400px;
-                font-size: 14px;
-                line-height: 1.4;
-            ">
-                ${message}
-            </div>
-        `);
-        
-        // Toast hinzufügen und animieren
-        $('body').append(toast);
-        toast.hide().fadeIn(300);
-        
-        // Nach der angegebenen Zeit ausblenden
-        setTimeout(() => {
-            toast.fadeOut(300, () => toast.remove());
-        }, duration);
     }
 })
