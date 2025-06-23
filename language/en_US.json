@@ -1,0 +1,14 @@
+{
+  "search_placeholder": "Search...",
+  "all_departments": "All Departments",
+  "all_occupations": "All Positions",
+  "phone": "Phone: ",
+  "room": "Room: ",
+  "no_email": "No Email",
+  "[FIRST NAME]": "[FIRST NAME]",
+  "[LAST NAME]": "[LAST NAME]",
+  "[PHONE]": "[PHONE]",
+  "[ROOM]": "[ROOM]",
+  "EMAIL@EXAMPLE.COM": "EMAIL@EXAMPLE.COM",
+  "[ADDITIONAL INFORMATION]": "[ADDITIONAL INFORMATION]"
+}

@@ -1,0 +1,20 @@
+{
+  "search_placeholder": "Suche...",
+  "all_departments": "Alle Bereiche",
+  "all_occupations": "Alle Positionen",
+  "phone": "Tel.: ",
+  "room": "Raum: ",
+  "no_email": "Keine E-Mail",
+  "[FIRST NAME]": "[VORNAME]",
+  "[LAST NAME]": "[NACHNAME]",
+  "[PHONE]": "[TELEFON]",
+  "[ROOM]": "[RAUM]",
+  "EMAIL@EXAMPLE.COM": "E-MAIL@EXAMPLE.COM",
+  "[ADDITIONAL INFORMATION]": "[ZUSÄTZLICHE INFORMATIONEN]",
+  "Send PIN to Email": "PIN per E-Mail senden",
+  "Enter email address": "E-Mail-Adresse eingeben",
+  "Send PIN": "PIN senden",
+  "PIN sent successfully": "PIN erfolgreich gesendet",
+  "Employee not found": "Mitarbeiter nicht gefunden",
+  "Invalid email address": "Ungültige E-Mail-Adresse"
+}

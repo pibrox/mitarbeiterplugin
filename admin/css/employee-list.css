@@ -1,0 +1,612 @@
+:root {
+	--btzc-el-tab-tile-width: 650px;
+}
+
+
+select {
+	border-radius: var(--btzc-v2-backendend-default-border-radius) !important;
+}
+
+input {
+	border-radius: var(--btzc-v2-backendend-default-border-radius) !important;
+}
+
+
+
+
+
+/************************************************
+*                                               *
+*                 employee tab                  *
+*                                               *
+************************************************/
+
+#btzc-el-employee-tab-base-container {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: space-around;
+}
+
+
+.btzc-el-employee-tab-alphabetic-index-container {
+	display: block;
+	position: fixed;
+	height: fit-content;
+	padding: 10px;
+	button {
+		display: block;
+		width: 32px !important;
+		height: 32px !important;
+		margin: 8px !important;
+		text-align: center !important;
+		padding: 0 !important;
+	}
+}
+
+#btzc-el-employee-tab-alphabetic-index-container-left {
+	top: calc(50vh - (var(--btzc-v2-page-header-height) + var(--btzc-v2-wordpress-admin-bar-height)) - 56px);
+	left: calc(50vw - 330px - 48px);
+}
+
+#btzc-el-employee-tab-alphabetic-index-container-right {
+	top: calc(50vh - (var(--btzc-v2-page-header-height) + var(--btzc-v2-wordpress-admin-bar-height)) - 40px);
+	left: calc(50vw - 330px);
+}
+
+
+#btzc-el-employee-tab-inner-container {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+
+#btzc-el-employee-table-filters-container {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 100%;
+	padding: 5px 0;
+}
+
+#btzc-el-employee-tab-search-field {
+	width: 100%;
+}
+
+
+.btzc-el-employee-tab-attribute-selection-dialog {
+	p {
+		font-size: 1.1em;
+		padding: 5px 15px;
+	}
+}
+
+
+#btzc-el-employee-tab-add-new-dataset-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	background: var(--btzc-v2-standard-button-bg);
+	color: var(--btzc-v2-standard-button-color);
+	border: 2px solid var(--btzc-v2-standard-button-border);
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	width: calc(var(--btzc-el-tab-tile-width) - 4px);
+	margin: 5px 0;
+	cursor: pointer;
+	p {
+		border-radius: var(--btzc-v2-backendend-default-border-radius);
+		font-size: 1.2em;
+		width: calc(100% - 50px);
+		text-align: center;
+		padding: 5px 15px;
+		margin: 5px 10px;
+	}
+}
+
+#btzc-el-employee-tab-add-new-dataset-tile:hover {
+	background-color: var(--btzc-v2-standard-button-hover-bg);
+	color: var(--btzc-v2-standard-button-hover-color);
+}
+
+#btzc-el-employee-tab-add-new-dataset-tile:active {
+	background-color: var(--btzc-v2-standard-button-active-bg);
+	color: var(--btzc-v2-standard-button-active-color);
+}
+
+
+.btzc-el-employee-tab-tile {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: flex-start;
+	width: var(--btzc-el-tab-tile-width);
+	min-height: fit-content;
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	margin: 5px 0;
+	background-color: var(--btzc-v2-table-element-bg);
+	img {
+		width: 150px;
+		height: auto;
+		border-radius: 50%;
+		object-fit: contain;
+		margin: 5px 25px 5px 15px;
+	}
+	.btzc-el-employee-tab-tile-data-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 90%;
+
+		.btzc-el-tile-row-label {
+			font-size: 1.2em;
+			font-style: italic;
+			padding-right: 5px;
+		}
+
+		.btzc-el-tile-row-value {
+			font-size: 1.2em;
+			font-weight: bold;
+		}
+
+		.btzc-el-employee-tab-tile-name-row {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
+			width: 100%;
+			p {
+				font-size: 2em;
+			}
+			.btzc-el-employee-tab-tile-first-name {
+				font-weight: normal;
+				padding-right: 5px;
+			}
+			.btzc-el-employee-tab-tile-last-name {
+				font-weight: bold;
+			}
+		}
+
+		.btzc-el-employee-tab-tile-gender-row {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			align-items: center;
+			width: 100%;
+		}
+
+		.btzc-el-employee-tab-tile-department-occupation-section {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: flex-start;
+			justify-content: space-between;
+			width: 100%;
+			p{
+				font-weight: bold;
+				font-size: 1.2em;
+				line-height: 0;
+				white-space: nowrap;
+			}
+
+			.btzc-el-employee-tab-tile-departments-section {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+
+			.btzc-el-employee-tab-tile-occupations-section {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+		}
+
+		.btzc-el-employee-tab-tile-contact-information {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			width: 100%;
+
+			.btzc-el-employee-tab-tile-phone-and-room-row {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				justify-content: space-between;
+				align-content: space-between;
+				width: 100%;
+				div {
+					display: inherit;
+					width: 100%;
+				}
+			}
+
+			.btzc-el-employee-tab-tile-email-row {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				width: 100%;
+			}
+		}
+
+		.btzc-el-employee-tab-tile-additional-information-row {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			width: 100%;
+		}
+	}
+}
+
+.btzc-el-employee-tab-tile:hover {
+	background-color: var(--btzc-v2-table-element-hover-bg);
+}
+
+
+#btzc-el-button-shortcode-to-clipboard {
+	margin-right: 5px;
+}
+
+@media only screen and (min-width: 782px) {
+	#btzc-el-button-shortcode-to-clipboard:before {
+		content: "Shortcode";
+	}
+}
+
+@media only screen and (min-width: 960px) {
+	#btzc-el-button-shortcode-to-clipboard:before {
+		content: "Shortcode to clipboard";
+	}
+}
+
+
+
+/************************************************
+*            photo-selection dialog             *
+************************************************/
+
+.btzc-el-employee-tab-photo-selection-dialog {
+	p {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		padding: 0 10px;
+		width: 130px;
+	}
+}
+
+.btzc-el-employee-tab-photo-selection-dialog-tile {
+	display: inline-block;
+	margin: 5px;
+	background-color: var(--btzc-v2-dialog-element-bg);
+	color: var(--btzc-v2-dialog-color);
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	img {
+		width: 150px;
+		height: 150px;
+		object-fit: contain;
+		padding: 5px;
+		border-radius: var(--btzc-v2-backendend-default-border-radius);
+	}
+}
+
+.btzc-el-employee-tab-photo-selection-dialog-tile:hover {
+	background-color: var(--btzc-v2-dialog-element-hover-bg);
+}
+
+
+
+
+
+/************************************************
+*                                               *
+*                  gallery tab                  *
+*                                               *
+************************************************/
+
+#btzc-el-gallery-image-container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+
+.btzc-el-gallery-photo-tile {
+	display: inline-block;
+	width: 270px;
+	height: 270px;
+	min-width: fit-content;
+	min-height: fit-content;
+	/*border: 2px solid var(--btzc-v2-table-border);*/
+	margin: 0 10px 10px 0;
+	color: var(--btzc-v2-table-color);
+	background-color: var(--btzc-v2-table-element-bg);
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	p{
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		padding: 0 10px;
+		width: 180px;
+	}
+	input{
+	}
+}
+
+.btzc-el-gallery-photo-tile:hover {
+	background-color: var(--btzc-v2-table-element-hover-bg);
+}
+
+.btzc-el-gallery-photo-tile-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px;
+	width: calc(100% - 10px);
+}
+
+.btzc_el_gallery-photo-tile-body {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	img {
+		max-width: 200px;
+		max-height: 200px;
+		object-fit: contain;
+		border-radius: var(--btzc-v2-backendend-default-border-radius);
+	}
+}
+
+
+.btzc-el-gallery-photo-tile-ready-to-remove {
+	background-color: var(--btzc-v2-table-element-selected-bg);
+	color: var(--btzc-v2-standard-button-active-color);
+}
+
+.btzc-el-gallery-photo-tile-ready-to-remove:hover {
+	background-color: var(--btzc-v2-table-element-selected-hover-bg);
+}
+
+
+
+
+
+/************************************************
+*                                               *
+*                department tab                 *
+*                                               *
+************************************************/
+
+#btzc-el-department-tab-base-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 20px;
+	padding: 20px;
+}
+
+
+.btzc-el-department-tab-add-new-dataset-tile,
+.btzc-el-department-tab-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	width: 350px;
+	background-color: #999;
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	margin: 5px;
+	cursor: pointer;
+	p {
+		border-radius: var(--btzc-v2-backendend-default-border-radius);
+		font-size: 1.2em;
+		width: calc(100% - 50px);
+		padding: 5px 15px;
+		margin: 5px 10px;
+	}
+}
+
+.btzc-el-department-tab-tile:hover {
+	background-color: var(--btzc-v2-table-element-hover-bg);
+}
+
+.btzc-el-department-tab-add-new-dataset-tile {
+	text-align: center;
+	background: var(--btzc-v2-standard-button-bg);
+	color: var(--btzc-v2-standard-button-color);
+	border: 2px solid var(--btzc-v2-standard-button-border);
+}
+
+.btzc-el-department-tab-add-new-dataset-tile:hover {
+	background: var(--btzc-v2-standard-button-hover-bg);
+	color: var(--btzc-v2-standard-button-hover-color);
+}
+
+.btzc-el-department-tab-add-new-dataset-tile:active {
+	background: var(--btzc-v2-standard-button-active-bg);
+	color: var(--btzc-v2-standard-button-active-color);
+}
+
+.btzc-el-department-tab-add-new-dataset-tile-footer,
+.btzc-el-department-tab-tile-footer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	padding: 0;
+	width: 100%;
+}
+
+
+
+
+
+/************************************************
+*                                               *
+*                occupation tab                 *
+*                                               *
+************************************************/
+
+#btzc-el-occupation-list-base-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 20px;
+	padding: 20px;
+}
+
+
+.btzc-el-occupation-tab-add-new-dataset-tile,
+.btzc-el-occupation-tab-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-between;
+	width: 700px;
+	background-color: var(--btzc-v2-table-element-bg);
+	border-radius: var(--btzc-v2-backendend-default-border-radius);
+	margin: 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.btzc-el-occupation-tab-tile:hover {
+	background-color: var(--btzc-v2-table-element-hover-bg);
+}
+
+.btzc-el-occupation-tab-add-new-dataset-tile {
+	background: var(--btzc-v2-standard-button-bg);
+	color: var(--btzc-v2-standard-button-color);
+	border: 2px solid var(--btzc-v2-standard-button-border);
+}
+
+.btzc-el-occupation-tab-add-new-dataset-tile:hover {
+	background: var(--btzc-v2-standard-button-hover-bg);
+	color: var(--btzc-v2-standard-button-hover-color);
+}
+
+.btzc-el-occupation-tab-add-new-dataset-tile:active {
+	background: var(--btzc-v2-standard-button-active-bg);
+	color: var(--btzc-v2-standard-button-active-color);
+}
+
+.btzc-el-occupation-tab-add-new-dataset-footer,
+.btzc-el-occupation-tab-tile-footer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	flex-wrap: nowrap;
+	padding: 0;
+	width: 100%;
+}
+
+
+.btzc-el-occupation-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	p {
+		white-space: nowrap;
+		border-radius: var(--btzc-v2-backendend-default-border-radius);
+		font-size: 1.2em;
+		width: calc(100% - 50px);
+		padding: 5px 15px;
+		margin: 5px 10px;
+	}
+}
+
+
+.btzc-el-occupation-undefined-form {
+	font-style: italic;
+	color: #666;
+}
+
+/* PIN-Versand Container */
+#btzc-el-pin-send-container {
+	margin-left: 20px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 12px;
+	background: #f8f9fa;
+	border-radius: 4px;
+	border: 1px solid #dee2e6;
+}
+
+#btzc-el-pin-send-container label {
+	font-weight: 500;
+	color: #495057;
+	margin: 0;
+}
+
+#btzc-el-pin-send-email {
+	width: 200px;
+	padding: 6px 10px;
+	border: 1px solid #ced4da;
+	border-radius: 3px;
+	font-size: 14px;
+}
+
+#btzc-el-pin-send-email:focus {
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
+	outline: none;
+}
+
+#btzc-el-pin-send-button {
+	padding: 6px 12px;
+	font-size: 14px;
+	min-width: 90px;
+}
+
+#btzc-el-pin-send-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Toast-Nachrichten */
+.btzc-toast-message {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.btzc-toast-success {
+	background-color: #4CAF50 !important;
+}
+
+.btzc-toast-error {
+	background-color: #f44336 !important;
+}
+
+.btzc-toast-info {
+	background-color: #2196F3 !important;
+}
